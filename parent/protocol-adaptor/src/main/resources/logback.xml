@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder  class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy/MM/dd-HH:mm:ss.SSS} %level [%thread] %c{1}:[%file%line]>>%msg%n</pattern>
+        </encoder >
+    </appender>
+
+    <appender name="asyn" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>10000</queueSize>
+        <appender-ref ref="stdout" />
+    </appender>
+
+    <logger name="kafka" level="WARN" additivity="false">
+        <appender-ref ref="asyn"/>
+    </logger>
+
+    <logger name="org.springframework" level="WARN" additivity="false">
+        <appender-ref ref="asyn"/>
+    </logger>
+
+    <logger name="org.apache" level="WARN" additivity="false">
+        <appender-ref ref="asyn"/>
+    </logger>
+
+    <logger name="corgi.hub.core" level="DEBUG" additivity="false">
+        <appender-ref ref="asyn"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="asyn" />
+    </root>
+
+</configuration>
